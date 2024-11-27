@@ -66,6 +66,7 @@ public class SdkConfiguration {
                 System.out.print("- CVV: ");
                 cvv = sc.nextLine();
                 PaymentRequirement requirement = new CardRequirement(cardNumber, expDate, cvv);
+
                 return requirement;
             }
             case CREDIT_CARD -> {
@@ -80,6 +81,7 @@ public class SdkConfiguration {
                 System.out.print("- CVV: ");
                 cvv = sc.nextLine();
                 PaymentRequirement requirement = new CardRequirement(cardNumber, expDate, cvv);
+
                 return requirement;
             }
             case NET_BANKING -> {
@@ -94,6 +96,7 @@ public class SdkConfiguration {
                 System.out.print("- IFSC Code: ");
                 ifscCode = sc.nextLine();
                 PaymentRequirement requirement = new NetBankingRequirement(accountHolder, bankAccountNo, ifscCode);
+                
                 return requirement;
             }
             default -> throw new IllegalArgumentException("Please select a valid Payment mode.");
@@ -101,54 +104,16 @@ public class SdkConfiguration {
     }
 
     private void initiatePayment(PaymentMode paymentMode, PaymentRequirement paymentRequirement) {
-        switch (paymentMode) {
-            case DEBIT_CARD:
-                {
-                    paymentDelegate.initialise(paymentMode, paymentRequirement).pay(245.67).onResult(new TransactionResult() {
-                        @Override
-                        public void onSuccess(String msg) {
-                            System.out.println(msg);
-                        }
-                        
-                        @Override
-                        public void onFailure(String msg) {
-                            System.out.println(msg);
-                        }
-                    });
-                    break;
-                }
-            case CREDIT_CARD:
-                {
-                    paymentDelegate.initialise(paymentMode, paymentRequirement).pay(245.67).onResult(new TransactionResult() {
-                        @Override
-                        public void onSuccess(String msg) {
-                            System.out.println(msg);
-                        }
-                        
-                        @Override
-                        public void onFailure(String msg) {
-                            System.out.println(msg);
-                        }
-                    });
-                    break;
-                }
-            case NET_BANKING:
-                {
-                    paymentDelegate.initialise(paymentMode, paymentRequirement).pay(245.67).onResult(new TransactionResult() {
-                        @Override
-                        public void onSuccess(String msg) {
-                            System.out.println(msg);
-                        }
-                        
-                        @Override
-                        public void onFailure(String msg) {
-                            System.out.println(msg);
-                        }
-                    });
-                    break;
-                }
-            default:
-                throw new IllegalArgumentException("Please select a valid Payment mode.");
-        }
+        paymentDelegate.initialise(paymentMode, paymentRequirement).pay(245.67).onResult(new TransactionResult() {
+            @Override
+            public void onSuccess(String msg) {
+                System.out.println(msg);
+            }
+            
+            @Override
+            public void onFailure(String msg) {
+                System.out.println(msg);
+            }
+        });
     }
 }
