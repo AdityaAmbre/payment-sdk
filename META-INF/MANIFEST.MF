@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+Created-By: Aditya Ambre
+Main-Class: sdk.PaymentSDK
+Implementation-Title: PaymentSDK
+Implementation-Version: 1.0.0
+Implementation-Vendor: Vladimir Dz

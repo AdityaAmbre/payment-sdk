@@ -1,0 +1,18 @@
+# Payment SDK
+# Ignore .class files
+*.class
+
+# Ignore .jar files (optional, if you're not distributing them)
+#*.jar
+
+# Ignore IDE-specific files (if you're using an IDE like IntelliJ, Eclipse, etc.)
+.idea/
+.vscode/
+*.iml
+
+# Ignore build directories
+bin/
+build/
+
+# Ignore logs
+*.log
