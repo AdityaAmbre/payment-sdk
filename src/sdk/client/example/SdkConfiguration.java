@@ -2,17 +2,21 @@
 
 package sdk.client.example;
 
-import java.util.*;
-import sdk.*;
-import sdk.client.base.*;
-import sdk.client.model.*;
-import sdk.core.delegate.*;
+import sdk.PaymentSDK;
+import sdk.client.base.PaymentRequirement;
+import sdk.client.base.TransactionResult;
+import sdk.client.model.CardRequirement;
+import sdk.client.model.NetBankingRequirement;
+import sdk.client.model.PaymentMode;
+import sdk.core.delegate.PaymentDelegate;
+import sdk.core.utility.Utility;
 
 public class SdkConfiguration {
     private PaymentMode paymentMode;
     private PaymentRequirement paymentRequirement;
     private final PaymentDelegate paymentDelegate;
     private static SdkConfiguration instance;
+    private double amount;
 
     private SdkConfiguration() {
         paymentDelegate = PaymentSDK.getInstance().init();
@@ -22,6 +26,7 @@ public class SdkConfiguration {
         if (instance == null) {
             instance = new SdkConfiguration();
         }
+        
         return instance;
     }
 
@@ -35,66 +40,49 @@ public class SdkConfiguration {
         System.out.println();
     }
 
+    // Setup Payment Mode
     private PaymentMode getPaymentMode() {
-        Scanner sc = new Scanner(System.in);
-        System.out.print("Please choose your mode of Payment:\n1. Debit Card\n2. Credit Card\n3. Net Banking\n\n> ");
-        int option = sc.nextInt();
+        int option = Utility.getUserInputInt("Please choose your mode of Payment:\n1. Debit Card\n2. Credit Card\n3. Net Banking\n\n> ");
         switch (option) {
-            case 1:
-                return PaymentMode.DEBIT_CARD;
-            case 2:
-                return PaymentMode.CREDIT_CARD;
-            case 3:
-                return PaymentMode.NET_BANKING;
-            default:
-                throw new AssertionError();
+            case 1: return PaymentMode.DEBIT_CARD;
+            case 2: return PaymentMode.CREDIT_CARD;
+            case 3: return PaymentMode.NET_BANKING;
+            default: throw new AssertionError();
         }
     }
 
+    // Setup Payment Requirements
     private PaymentRequirement getRequirements(PaymentMode mode) {
-        Scanner sc = new Scanner(System.in);
         switch (mode) {
             case DEBIT_CARD -> {
-                String cardNumber;
-                String expDate;
-                String cvv;
-                System.out.print("Enter below Debit card requirements:");
-                System.out.print("\n- Card Number: ");
-                cardNumber = sc.nextLine();
-                System.out.print("- Exp Date: ");
-                expDate = sc.nextLine();
-                System.out.print("- CVV: ");
-                cvv = sc.nextLine();
+                String cardNumber,expDate, cvv;
+                System.out.print("Enter below Debit Card requirements:");
+                cardNumber = Utility.getUserInputString("\n- Card Number: ");
+                expDate = Utility.getUserInputString("\n- Exp Date: ");
+                cvv = Utility.getUserInputString("\n- CVV: ");
+                amount = Utility.getUserInputInt("\n- Amount: ");
                 PaymentRequirement requirement = new CardRequirement(cardNumber, expDate, cvv);
 
                 return requirement;
             }
             case CREDIT_CARD -> {
-                String cardNumber;
-                String expDate;
-                String cvv;
-                System.out.print("Enter below Credit card requirements:");
-                System.out.print("\n- Card Number: ");
-                cardNumber = sc.nextLine();
-                System.out.print("- Exp Date: ");
-                expDate = sc.nextLine();
-                System.out.print("- CVV: ");
-                cvv = sc.nextLine();
+                String cardNumber, expDate, cvv;
+                System.out.print("Enter below Credit Card requirements:");
+                cardNumber = Utility.getUserInputString("\n- Card Number: ");
+                expDate = Utility.getUserInputString("\n- Exp Date: ");
+                cvv = Utility.getUserInputString("\n- CVV: ");
+                amount = Utility.getUserInputInt("\n- Amount: ");
                 PaymentRequirement requirement = new CardRequirement(cardNumber, expDate, cvv);
 
                 return requirement;
             }
             case NET_BANKING -> {
-                String accountHolder;
-                String bankAccountNo;
-                String ifscCode;
+                String accountHolder, bankAccountNo, ifscCode;
                 System.out.print("Enter below Net Banking requirements:");
-                System.out.print("\n- Account Holder: ");
-                accountHolder = sc.nextLine();
-                System.out.print("- Account No.: ");
-                bankAccountNo = sc.nextLine();
-                System.out.print("- IFSC Code: ");
-                ifscCode = sc.nextLine();
+                accountHolder = Utility.getUserInputString("\n- Account Holder: ");
+                bankAccountNo = Utility.getUserInputString("\n- Account No.: ");
+                ifscCode = Utility.getUserInputString("\n- IFSC Code: ");
+                amount = Utility.getUserInputInt("\n- Amount: ");
                 PaymentRequirement requirement = new NetBankingRequirement(accountHolder, bankAccountNo, ifscCode);
                 
                 return requirement;
@@ -103,8 +91,9 @@ public class SdkConfiguration {
         }
     }
 
+    // Initiate Payment SDK Transaction
     private void initiatePayment(PaymentMode paymentMode, PaymentRequirement paymentRequirement) {
-        paymentDelegate.initialise(paymentMode, paymentRequirement).pay(245.67).onResult(new TransactionResult() {
+        paymentDelegate.initialise(paymentMode, paymentRequirement).pay(amount).onResult(new TransactionResult() {
             @Override
             public void onSuccess(String msg) {
                 System.out.println(msg);

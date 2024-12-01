@@ -22,6 +22,7 @@ public class PaymentDelegate {
     public PaymentDelegate initialise(PaymentMode paymentMode, PaymentRequirement paymentRequirement) {
         Payment payment = getPaymentType(paymentMode, paymentRequirement);
         paymentProcessor = new PaymentProcessor(payment);
+        
         return this;
     }
 
@@ -30,6 +31,7 @@ public class PaymentDelegate {
             throw new IllegalArgumentException("Please, enter a valid amount.");
         } else {
             result = paymentProcessor.pay(amount);
+
             return this;
         }
     }

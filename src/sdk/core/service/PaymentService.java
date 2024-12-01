@@ -42,10 +42,12 @@ public class PaymentService {
             if (validateRequirements()) {
                 status = Constant.SUCCESS;
                 message = "Payment of Rs. "+amount+ " with Transaction ID: "+ cardRequirement.getTransactionId() +" was successful using Debit Card on "+ cardRequirement.getTransactionDate() +". Thank You!";
+                
                 result.put(status, message);
             } else {
                 status = Constant.FAILURE;
                 message = "Payment of Rs. "+amount+ " was unsuccessful using Debit Card on "+ cardRequirement.getTransactionDate() +". Please Re-try!";
+                
                 result.put(status, message);
             }
 
@@ -79,10 +81,12 @@ public class PaymentService {
             if (validateRequirements()) {
                 status = Constant.SUCCESS;
                 message = "Payment of Rs. "+amount+ " with Transaction ID: "+ cardRequirement.getTransactionId() +" was successful using Credit Card on "+ cardRequirement.getTransactionDate() +". Thank You!";
+                
                 result.put(status, message);
             } else {
                 status = Constant.FAILURE;
                 message = "Payment of Rs. "+amount+ " was unsuccessful using Credit Card on "+ cardRequirement.getTransactionDate() +". Please Re-try!";
+                
                 result.put(status, message);
             }
 
@@ -115,10 +119,12 @@ public class PaymentService {
             if (validateRequirements()) {
                 status = Constant.SUCCESS;
                 message = "Payment of Rs. "+amount+ " with Transaction ID: "+ netBankingRequirement.getTransactionId() +" was successful using Net Banking on "+ netBankingRequirement.getTransactionDate() +". Thank You!";
+                
                 result.put(status, message);
             } else {
                 status = Constant.FAILURE;
                 message = "Payment of Rs. "+amount+ " was unsuccessful using Net Banking on "+ netBankingRequirement.getTransactionDate() +". Please Re-try!";
+                
                 result.put(status, message);
             }
 

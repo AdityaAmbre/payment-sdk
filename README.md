@@ -33,11 +33,12 @@ project/.vscode/settings.json
 
 ## Configuration
 
-#### Step 1 - Importing necessary packages
+#### Step 1 - Import necessary SDK packages
 ```java
  import sdk.PaymentSDK;
  import sdk.client.model.PaymentMode;
  import sdk.client.model.CardRequirement;
+ import sdk.client.model.NetBankingRequirement;
  import sdk.client.base.TransactionResult;
  import sdk.client.base.PaymentRequirement;
  import sdk.core.delegate.PaymentDelegate;
@@ -50,7 +51,7 @@ project/.vscode/settings.json
  PaymentRequirement paymentRequirement;
 ```
 
-#### Step 3 - Define Payment Mode & Payment Requirement according to the Mode of Payment
+#### Step 3 - Setup Payment Mode & Payment Requirements according to the selected Mode of Payment
  - Debit Card:
  ```java
     paymentMode = PaymentMode.DEBIT_CARD
@@ -72,16 +73,18 @@ project/.vscode/settings.json
  paymentDelegate = PaymentSDK.getInstance().init();
 ```
 
- #### Step 5 - Finally, Inject the Payment Mode & Payment Requirement with payable amount and handle the callback of Transaction result accordingly
+ #### Step 5 - Finally, Inject the Payment Mode & Payment Requirement with payable amount and Handle the callback of the SDK Transaction result accordingly!
 ```java
  paymentDelegate.initialise(paymentMode, paymentRequirement).pay(amount).onResult(new TransactionResult() {
     @Override
     onSuccess(String message) {
+      // Hanlde success case scenario
       System.out.println(message);
     }
 
     @Override
     onFailure(String message) {
+      // Hanlde failure case scenario
       System.out.println(message);
     }
  });
@@ -91,12 +94,6 @@ project/.vscode/settings.json
 
 #### Access the _**SdkConfiguration**_ class which demonstrate a sample code for _**PaymentSDK**_ Integration and usage
 ```java
- import sdk.PaymentSDK;
- import sdk.client.model.PaymentMode;
- import sdk.client.model.CardRequirement;
- import sdk.client.base.TransactionResult;
- import sdk.client.base.PaymentRequirement;
- import sdk.core.delegate.PaymentDelegate;
  import sdk.client.example.SdkConfiguration;
 
  SdkConfiguration.getInstance().init();
