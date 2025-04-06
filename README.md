@@ -78,13 +78,13 @@ project/.vscode/settings.json
  paymentDelegate.initialise(paymentMode, paymentRequirement).pay(amount).onResult(new TransactionResult() {
     @Override
     onSuccess(String message) {
-      // Hanlde success case scenario
+      // Handle success case scenario
       System.out.println(message);
     }
 
     @Override
     onFailure(String message) {
-      // Hanlde failure case scenario
+      // Handle failure case scenario
       System.out.println(message);
     }
  });

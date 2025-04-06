@@ -1,4 +1,4 @@
-// Constants
+// Constant
 
 package sdk.core.constant;
 

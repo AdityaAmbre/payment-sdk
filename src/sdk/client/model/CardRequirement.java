@@ -9,6 +9,7 @@ public class CardRequirement implements PaymentRequirement {
     private final String cardNumber;
     private final String expDate;
     private final String cvv;
+
     private final String transactionId;
     private final String transactionDate;
 

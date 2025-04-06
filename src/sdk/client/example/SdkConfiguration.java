@@ -26,7 +26,7 @@ public class SdkConfiguration {
         if (instance == null) {
             instance = new SdkConfiguration();
         }
-        
+
         return instance;
     }
 
@@ -43,25 +43,27 @@ public class SdkConfiguration {
     // Setup Payment Mode
     private PaymentMode getPaymentMode() {
         int option = Utility.getUserInputInt("Please choose your mode of Payment:\n1. Debit Card\n2. Credit Card\n3. Net Banking\n\n> ");
-        switch (option) {
-            case 1: return PaymentMode.DEBIT_CARD;
-            case 2: return PaymentMode.CREDIT_CARD;
-            case 3: return PaymentMode.NET_BANKING;
-            default: throw new AssertionError();
-        }
+        return switch (option) {
+            case 1 -> PaymentMode.DEBIT_CARD;
+            case 2 -> PaymentMode.CREDIT_CARD;
+            case 3 -> PaymentMode.NET_BANKING;
+            default -> throw new AssertionError();
+        };
     }
 
     // Setup Payment Requirements
     private PaymentRequirement getRequirements(PaymentMode mode) {
+        PaymentRequirement requirement;
+
         switch (mode) {
             case DEBIT_CARD -> {
-                String cardNumber,expDate, cvv;
+                String cardNumber, expDate, cvv;
                 System.out.print("Enter below Debit Card requirements:");
                 cardNumber = Utility.getUserInputString("\n- Card Number: ");
                 expDate = Utility.getUserInputString("\n- Exp Date: ");
                 cvv = Utility.getUserInputString("\n- CVV: ");
                 amount = Utility.getUserInputInt("\n- Amount: ");
-                PaymentRequirement requirement = new CardRequirement(cardNumber, expDate, cvv);
+                requirement = new CardRequirement(cardNumber, expDate, cvv);
 
                 return requirement;
             }
@@ -72,7 +74,7 @@ public class SdkConfiguration {
                 expDate = Utility.getUserInputString("\n- Exp Date: ");
                 cvv = Utility.getUserInputString("\n- CVV: ");
                 amount = Utility.getUserInputInt("\n- Amount: ");
-                PaymentRequirement requirement = new CardRequirement(cardNumber, expDate, cvv);
+                requirement = new CardRequirement(cardNumber, expDate, cvv);
 
                 return requirement;
             }
@@ -83,8 +85,8 @@ public class SdkConfiguration {
                 bankAccountNo = Utility.getUserInputString("\n- Account No.: ");
                 ifscCode = Utility.getUserInputString("\n- IFSC Code: ");
                 amount = Utility.getUserInputInt("\n- Amount: ");
-                PaymentRequirement requirement = new NetBankingRequirement(accountHolder, bankAccountNo, ifscCode);
-                
+                requirement = new NetBankingRequirement(accountHolder, bankAccountNo, ifscCode);
+
                 return requirement;
             }
             default -> throw new IllegalArgumentException("Please select a valid Payment mode.");
@@ -98,7 +100,7 @@ public class SdkConfiguration {
             public void onSuccess(String msg) {
                 System.out.println(msg);
             }
-            
+
             @Override
             public void onFailure(String msg) {
                 System.out.println(msg);

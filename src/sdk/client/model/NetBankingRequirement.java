@@ -9,6 +9,7 @@ public class NetBankingRequirement implements PaymentRequirement {
     private final String accountHolder;
     private final String bankAccountNo;
     private final String ifscCode;
+
     private final String transactionId;
     private final String transactionDate;
 

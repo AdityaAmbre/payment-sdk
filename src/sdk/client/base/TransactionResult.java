@@ -3,6 +3,6 @@
 package sdk.client.base;
 
 public interface TransactionResult {
-    public void onSuccess(String message);
-    public void onFailure(String message);
+    void onSuccess(String message);
+    void onFailure(String message);
 }

@@ -25,8 +25,7 @@ public class Utility {
 
     public static String generateCurrentTimestamp() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String timestamp = dateFormat.format(new Date());
-        return timestamp;
+        return dateFormat.format(new Date());
     }
 
     public static int getUserInputInt(String message) {

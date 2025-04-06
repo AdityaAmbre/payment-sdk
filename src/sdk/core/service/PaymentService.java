@@ -4,13 +4,15 @@ package sdk.core.service;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import sdk.client.base.*;
 import sdk.client.model.*;
+
 import sdk.core.base.*;
 import sdk.core.constant.*;
 import sdk.core.validator.*;
 
-public class PaymentService {    
+public class PaymentService {
     private String status;
     private String message;
     private final Map<String, String> result = new HashMap<>();
@@ -19,13 +21,13 @@ public class PaymentService {
 
     // Debit Card Implementation
     private class DebitCard implements Payment {
-        private CardRequirement cardRequirement;
+        private final CardRequirement cardRequirement;
 
         public DebitCard(PaymentRequirement paymentRequirement) {
             if (paymentRequirement instanceof CardRequirement) {
                 this.cardRequirement = (CardRequirement) paymentRequirement;
             } else {
-                throw new IllegalArgumentException("Expected CardRequirement but got: " + cardRequirement.getClass().getName());
+                throw new IllegalArgumentException("Expected CardRequirement but got: " + paymentRequirement.getClass().getName());
             }
         }
 
@@ -41,13 +43,13 @@ public class PaymentService {
         public Map<String, String> pay(double amount) {
             if (validateRequirements()) {
                 status = Constant.SUCCESS;
-                message = "Payment of Rs. "+amount+ " with Transaction ID: "+ cardRequirement.getTransactionId() +" was successful using Debit Card on "+ cardRequirement.getTransactionDate() +". Thank You!";
-                
+                message = "Payment of Rs. " + amount + " with Transaction ID: " + cardRequirement.getTransactionId() + " was successful using Debit Card on " + cardRequirement.getTransactionDate() + ". Thank You!";
+
                 result.put(status, message);
             } else {
                 status = Constant.FAILURE;
-                message = "Payment of Rs. "+amount+ " was unsuccessful using Debit Card on "+ cardRequirement.getTransactionDate() +". Please Re-try!";
-                
+                message = "Payment of Rs. " + amount + " was unsuccessful using Debit Card on " + cardRequirement.getTransactionDate() + ". Please Re-try!";
+
                 result.put(status, message);
             }
 
@@ -57,15 +59,16 @@ public class PaymentService {
 
     // Credit Card Implementation
     private class CreditCard implements Payment {
-        private CardRequirement cardRequirement;
+        private final CardRequirement cardRequirement;
 
         public CreditCard(PaymentRequirement paymentRequirement) {
             if (paymentRequirement instanceof CardRequirement) {
                 this.cardRequirement = (CardRequirement) paymentRequirement;
             } else {
-                throw new IllegalArgumentException("Expected CardRequirement but got: " + cardRequirement.getClass().getName());
+                throw new IllegalArgumentException("Expected CardRequirement but got: " + paymentRequirement.getClass().getName());
             }
         }
+
 
         private boolean validateRequirements() {
             boolean isValidCardNumber = Validator.validateCardNumber(cardRequirement.getCardNumber());
@@ -80,13 +83,13 @@ public class PaymentService {
         public Map<String, String> pay(double amount) {
             if (validateRequirements()) {
                 status = Constant.SUCCESS;
-                message = "Payment of Rs. "+amount+ " with Transaction ID: "+ cardRequirement.getTransactionId() +" was successful using Credit Card on "+ cardRequirement.getTransactionDate() +". Thank You!";
-                
+                message = "Payment of Rs. " + amount + " with Transaction ID: " + cardRequirement.getTransactionId() + " was successful using Credit Card on " + cardRequirement.getTransactionDate() + ". Thank You!";
+
                 result.put(status, message);
             } else {
                 status = Constant.FAILURE;
-                message = "Payment of Rs. "+amount+ " was unsuccessful using Credit Card on "+ cardRequirement.getTransactionDate() +". Please Re-try!";
-                
+                message = "Payment of Rs. " + amount + " was unsuccessful using Credit Card on " + cardRequirement.getTransactionDate() + ". Please Re-try!";
+
                 result.put(status, message);
             }
 
@@ -96,13 +99,13 @@ public class PaymentService {
 
     // Net Banking Implementation
     private class NetBanking implements Payment {
-        private NetBankingRequirement netBankingRequirement;
+        private final NetBankingRequirement netBankingRequirement;
 
         public NetBanking(PaymentRequirement paymentRequirement) {
             if (paymentRequirement instanceof NetBankingRequirement) {
                 this.netBankingRequirement = (NetBankingRequirement) paymentRequirement;
             } else {
-                throw new IllegalArgumentException("Expected NetBankingRequirement but got: " + netBankingRequirement.getClass().getName());
+                throw new IllegalArgumentException("Expected NetBankingRequirement but got: " + paymentRequirement.getClass().getName());
             }
         }
 
@@ -118,13 +121,13 @@ public class PaymentService {
         public Map<String, String> pay(double amount) {
             if (validateRequirements()) {
                 status = Constant.SUCCESS;
-                message = "Payment of Rs. "+amount+ " with Transaction ID: "+ netBankingRequirement.getTransactionId() +" was successful using Net Banking on "+ netBankingRequirement.getTransactionDate() +". Thank You!";
-                
+                message = "Payment of Rs. " + amount + " with Transaction ID: " + netBankingRequirement.getTransactionId() + " was successful using Net Banking on " + netBankingRequirement.getTransactionDate() + ". Thank You!";
+
                 result.put(status, message);
             } else {
                 status = Constant.FAILURE;
-                message = "Payment of Rs. "+amount+ " was unsuccessful using Net Banking on "+ netBankingRequirement.getTransactionDate() +". Please Re-try!";
-                
+                message = "Payment of Rs. " + amount + " was unsuccessful using Net Banking on " + netBankingRequirement.getTransactionDate() + ". Please Re-try!";
+
                 result.put(status, message);
             }
 
@@ -132,14 +135,18 @@ public class PaymentService {
         }
     }
 
+    @SuppressWarnings("ClassEscapesDefinedScope")
     public DebitCard payUsingDebitCard(PaymentRequirement paymentRequirement) {
         return new DebitCard(paymentRequirement);
     }
 
+    @SuppressWarnings("ClassEscapesDefinedScope")
     public CreditCard payUsingCreditCard(PaymentRequirement paymentRequirement) {
         return new CreditCard(paymentRequirement);
     }
 
+
+    @SuppressWarnings("ClassEscapesDefinedScope")
     public NetBanking payUsingNetBanking(PaymentRequirement paymentRequirement) {
         return new NetBanking(paymentRequirement);
     }
